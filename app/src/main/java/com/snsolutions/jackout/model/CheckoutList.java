@@ -26,16 +26,15 @@ public class CheckoutList extends AppCompatActivity {
         binding = CheckoutListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        productsList.addAll(db.getProductArrayList());
 
+        productAdapter = new ProductAdapter(productsList, CheckoutList.this);
 
         RecyclerView recyclerViewProducts = binding.recyclerViewProducts;
         recyclerViewProducts.setLayoutManager(new LinearLayoutManager(CheckoutList.this));
         recyclerViewProducts.setHasFixedSize(true);
-        productAdapter = new ProductAdapter(productsList, CheckoutList.this);
         recyclerViewProducts.setAdapter(productAdapter);
 
-        productsList.addAll(db.getProductArrayList());
         productAdapter.notifyDataSetChanged();
-
     }
 }
