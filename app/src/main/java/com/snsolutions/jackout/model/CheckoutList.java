@@ -1,39 +1,46 @@
 package com.snsolutions.jackout.model;
 
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import com.snsolutions.jackout.R;
+
 import com.snsolutions.jackout.adapter.ProductAdapter;
 import com.snsolutions.jackout.databinding.CheckoutListBinding;
-
 import com.snsolutions.jackout.helper.DBHelper;
 
 import java.util.ArrayList;
 
-public class CheckoutList extends AppCompatActivity {
+public class CheckoutList extends Fragment {
     private CheckoutListBinding binding;
     private ProductAdapter productAdapter;
-    final ArrayList<Product> productsList = new ArrayList<>();
-    final DBHelper db = new DBHelper();
+    private final ArrayList<com.snsolutions.jackout.model.Product> productsList = new ArrayList<>();
+    private final DBHelper db = new DBHelper();
 
-
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        binding = CheckoutListBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = CheckoutListBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         productsList.addAll(db.getProductArrayList());
 
-        productAdapter = new ProductAdapter(productsList, CheckoutList.this);
+        productAdapter = new ProductAdapter(productsList, requireContext());
 
-        RecyclerView recyclerViewProducts = binding.recyclerViewProducts;
-        recyclerViewProducts.setLayoutManager(new LinearLayoutManager(CheckoutList.this));
-        recyclerViewProducts.setHasFixedSize(true);
-        recyclerViewProducts.setAdapter(productAdapter);
+        binding.recyclerViewProducts.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerViewProducts.setHasFixedSize(true);
+        binding.recyclerViewProducts.setAdapter(productAdapter);
 
         productAdapter.notifyDataSetChanged();
     }
