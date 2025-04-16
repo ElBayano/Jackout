@@ -1,12 +1,14 @@
 package com.snsolutions.jackout.model;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
     double cost;
     String description;
     int id;
     Integer profit;
 
-    public Product(Integer cost, String description, Integer id, Integer profit) {
+    public Product(Integer cost, String description, Integer id, Integer profit)  {
         this.cost = cost;
         this.description = description;
         this.id = id;
