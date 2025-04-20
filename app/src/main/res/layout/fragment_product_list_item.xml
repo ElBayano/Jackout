@@ -2,12 +2,15 @@
 
 <androidx.cardview.widget.CardView
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_height="18dp">
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_height="wrap_content">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:orientation="vertical">
+        android:layout_height="26dp"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:gravity="center"
+        >
 
         <TableRow
             android:layout_width="match_parent"
@@ -25,7 +28,7 @@
 
             <TextView
                 android:id="@+id/codigo"
-                android:layout_width="45dp"
+                android:layout_width="48dp"
                 android:layout_height="match_parent"
                 android:text="0001"
                 android:textAlignment="center"
@@ -44,7 +47,7 @@
 
             <TextView
                 android:id="@+id/quantidade"
-                android:layout_width="32dp"
+                android:layout_width="38dp"
                 android:layout_height="match_parent"
                 android:text="2"
                 android:textAlignment="center"
@@ -53,7 +56,7 @@
 
             <TextView
                 android:id="@+id/valor"
-                android:layout_width="50dp"
+                android:layout_width="60dp"
                 android:layout_height="match_parent"
                 android:text="R$ 10"
                 android:textAlignment="center"
@@ -62,7 +65,7 @@
 
             <TextView
                 android:id="@+id/valor_total"
-                android:layout_width="50dp"
+                android:layout_width="64dp"
                 android:layout_height="match_parent"
                 android:text="R$ 20"
                 android:textAlignment="center"

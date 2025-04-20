@@ -6,9 +6,9 @@ public class Product implements Serializable {
     double cost;
     String description;
     int id;
-    Integer profit;
+    double profit;
 
-    public Product(Integer cost, String description, Integer id, Integer profit)  {
+    public Product(double cost, String description, Integer id, double profit)  {
         this.cost = cost;
         this.description = description;
         this.id = id;
@@ -31,7 +31,7 @@ public class Product implements Serializable {
         this.cost = cost;
     }
 
-    public Integer getProfit() {
+    public double getProfit() {
         return profit;
     }
 

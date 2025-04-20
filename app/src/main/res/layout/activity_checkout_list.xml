@@ -1,16 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_400"
     android:orientation="vertical"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="parent"
-    android:paddingTop="80dp"
+    android:background="@color/black"
+    android:paddingTop="60dp"
     >
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp">
 
+        <Button
+            android:id="@+id/button_checkout_adicionar"
+            android:layout_width="136dp"
+            android:layout_height="40dp"
+            android:text="ADICIONAR"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:layout_marginRight="20dp"
+            android:id="@+id/button_checkout_remover"
+            android:layout_width="136dp"
+            android:layout_height="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="ADICIONAR"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="18dp"
@@ -27,7 +46,7 @@
 
         <TextView
             android:id="@+id/title_codigo"
-            android:layout_width="45dp"
+            android:layout_width="48dp"
             android:layout_height="match_parent"
             android:text="COD"
             android:textAlignment="center"
@@ -46,7 +65,7 @@
 
         <TextView
             android:id="@+id/title_quantidade"
-            android:layout_width="32dp"
+            android:layout_width="38dp"
             android:layout_height="match_parent"
             android:text="QTD"
             android:textAlignment="center"
@@ -55,7 +74,7 @@
 
         <TextView
             android:id="@+id/title_valor"
-            android:layout_width="50dp"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
             android:text="VALOR"
             android:textAlignment="center"
@@ -64,7 +83,7 @@
 
         <TextView
             android:id="@+id/title_valor_total"
-            android:layout_width="50dp"
+            android:layout_width="64dp"
             android:layout_height="match_parent"
             android:text="TOTAL"
             android:textAlignment="center"
@@ -83,7 +102,145 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyler_view_checkout"
         android:layout_width="match_parent"
-        android:layout_height="360dp">
+        android:layout_height="340dp">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="360dp"
+        android:layout_height="220dp"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:id="@+id/checkout_info_left_side"
+            android:layout_width="180dp"
+            android:layout_height="match_parent"
+            android:gravity="start"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="136dp"
+                android:layout_height="wrap_content"
+                >
+                <TextView
+                    android:id="@+id/content_title_receber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Total a receber"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="16sp"
+                    android:textFontWeight="700"
+                    />
+                <TextView
+                    android:id="@+id/content_total_receber"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/cinza_padrao"
+                    android:text="R$ 0"
+                    android:textAlignment="center"
+                    android:paddingTop="8dp"
+                    android:textSize="16sp"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="136dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                >
+                <TextView
+                    android:id="@+id/content_title_troco"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Troco"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="16sp"
+                    android:textFontWeight="700"
+                    />
+                <TextView
+                    android:id="@+id/content_troco"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="R$ 0"
+                    android:paddingTop="8dp"
+                    android:textSize="16sp"
+                    android:textAlignment="center"
+                    android:background="@color/cinza_padrao"
+                    />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button_checkout_cancelar"
+                android:layout_width="136dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="18dp"
+                android:text="CANCELAR"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/checkout_info_right_side"
+            android:layout_width="180dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="136dp"
+                android:layout_height="wrap_content"
+                >
+                <TextView
+                    android:id="@+id/content_title_total_recebido"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Total recebido"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="16sp"
+                    android:textFontWeight="700"
+                    />
+                <TextView
+                    android:id="@+id/content_total_recebido"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/cinza_padrao"
+                    android:text="R$ 0"
+                    android:textAlignment="center"
+                    android:paddingTop="8dp"
+                    android:textSize="16sp"
+                    />
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/button_checkout_pagamento"
+                android:layout_width="136dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="40dp"
+                android:text="PAGAMENTO"/>
+            <Button
+                android:id="@+id/button_checkout_finalizar"
+                android:layout_width="136dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="18dp"
+                android:text="FINALIZAR"/>
+
+
+
+
+
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>
