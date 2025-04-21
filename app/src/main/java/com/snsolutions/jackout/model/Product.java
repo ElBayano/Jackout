@@ -6,14 +6,18 @@ public class Product implements Serializable {
     double cost;
     String description;
     int id;
-    double profit;
+    double profitRetail;
+    double profitWholesale;
 
-    public Product(double cost, String description, Integer id, double profit)  {
+    public Product(double cost, String description, int id, double profitRetail, double profitWholesale) {
         this.cost = cost;
         this.description = description;
         this.id = id;
-        this.profit = profit;
+        this.profitRetail = profitRetail;
+        this.profitWholesale = profitWholesale;
     }
+
+
 
     public String getDescription() {
         return description;
@@ -31,12 +35,12 @@ public class Product implements Serializable {
         this.cost = cost;
     }
 
-    public double getProfit() {
-        return profit;
+    public double getProfitRetail() {
+        return profitRetail;
     }
 
-    public void setProfit(Integer profit) {
-        this.profit = profit;
+    public void setProfitRetail(Integer profitRetail) {
+        this.profitRetail = profitRetail;
     }
 
     public int getId() {
@@ -45,5 +49,27 @@ public class Product implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setProfitRetail(double profitRetail) {
+        this.profitRetail = profitRetail;
+    }
+
+    public double getProfitWholesale() {
+        return profitWholesale;
+    }
+
+    public void setProfitWholesale(double profitWholesale) {
+        this.profitWholesale = profitWholesale;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "cost=" + cost +
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                ", profit=" + profitRetail +
+                '}';
     }
 }
