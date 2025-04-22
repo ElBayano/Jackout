@@ -7,19 +7,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.snsolutions.jackout.MainActivity;
 import com.snsolutions.jackout.R;
 import com.snsolutions.jackout.controller.ProductController;
 import com.snsolutions.jackout.helper.ConnectionSQL;
 import com.snsolutions.jackout.model.Product;
 
-public class ProductActivity extends AppCompatActivity {
+public class NewProductActivity extends AppCompatActivity {
     private EditText edit_text_id_produto;
     private EditText edit_text_nome_produto;
     private EditText edit_text_custo;
@@ -35,7 +30,7 @@ public class ProductActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product);
+        setContentView(R.layout.activity_new_product);
 
 
         this.edit_text_id_produto = findViewById(R.id.edit_text_id_produto);
@@ -62,21 +57,23 @@ public class ProductActivity extends AppCompatActivity {
 
 
                 if (produtoParaCadastrar != null) {
-                    Log.i("debugar", produtoParaCadastrar.toString());
                     ProductController productController = new ProductController(ConnectionSQL
-                            .getInstance(ProductActivity.this));
+                            .getInstance(NewProductActivity.this));
                     int idProduto = productController.salvarProdutoController(produtoParaCadastrar);
                     if (idProduto > 0) {
-                        Toast.makeText(ProductActivity.this, String.valueOf(idProduto),
+
+                        String msg = "Produto " +idProduto + " cadastrado com sucesso";
+                        Toast.makeText(NewProductActivity.this,msg,
                                 Toast.LENGTH_SHORT).show();
+                        finish();
                     } else {
-                        Toast.makeText(ProductActivity.this, "Erro ao salvar o produto"
+                        Toast.makeText(NewProductActivity.this, "Erro ao salvar o produto"
                                         + String.valueOf(idProduto),
                                 Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
-                    Toast.makeText(ProductActivity.this, "Todos os campos são obrigatórios", Toast.LENGTH_LONG).show();
+                    Toast.makeText(NewProductActivity.this, "Todos os campos são obrigatórios", Toast.LENGTH_LONG).show();
                 }
 
 
