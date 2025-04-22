@@ -4,6 +4,11 @@ import com.snsolutions.jackout.model.Product;
 
 import java.util.ArrayList;
 
+
+
+
+
+// Banco de dados teste
 public class DBHelper {
     public  ArrayList<Product> productArrayList = new ArrayList<>();
 
