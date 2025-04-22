@@ -17,6 +17,9 @@ public class Product implements Serializable {
         this.profitWholesale = profitWholesale;
     }
 
+    public Product() {
+
+    }
 
 
     public String getDescription() {
@@ -31,7 +34,7 @@ public class Product implements Serializable {
         return cost;
     }
 
-    public void setCost(Integer cost) {
+    public void setCost(double cost) {
         this.cost = cost;
     }
 
@@ -69,7 +72,8 @@ public class Product implements Serializable {
                 "cost=" + cost +
                 ", description='" + description + '\'' +
                 ", id=" + id +
-                ", profit=" + profitRetail +
+                ", profitRetail=" + profitRetail +
+                ", profitWholesale=" + profitWholesale +
                 '}';
     }
 }
