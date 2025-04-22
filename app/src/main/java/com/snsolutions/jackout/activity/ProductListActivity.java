@@ -2,6 +2,7 @@ package com.snsolutions.jackout.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListAdapter;
@@ -11,6 +12,8 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import com.snsolutions.jackout.R;
 import com.snsolutions.jackout.adapter.ProductListAdapter;
+import com.snsolutions.jackout.controller.ProductController;
+import com.snsolutions.jackout.helper.ConnectionSQL;
 import com.snsolutions.jackout.helper.DBHelper;
 import com.snsolutions.jackout.model.Product;
 
@@ -31,9 +34,9 @@ public class ProductListActivity extends AppCompatActivity {
         this.listViewProdutos = (ListView) findViewById(R.id.list_view_produtos);
         this.productArrayList = new ArrayList<>();
 
-        DBHelper hd = new DBHelper();
 
-        this.productArrayList.addAll(hd.getProductArrayList());
+        ProductController productController = new ProductController(ConnectionSQL.getInstance( ProductListActivity.this));
+        this.productArrayList = productController.getListaProdutosController();
 
         this.productListAdapter = new ProductListAdapter(ProductListActivity.this, productArrayList);
         this.listViewProdutos.setAdapter(productListAdapter);
@@ -50,6 +53,15 @@ public class ProductListActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.i("debugar", "onResume executado : ProductListActivity");
+        ProductController productController = new ProductController(ConnectionSQL.getInstance( ProductListActivity.this));
+        this.productArrayList = productController.getListaProdutosController();
+        this.productListAdapter.atualizarLista();
 
     }
 }

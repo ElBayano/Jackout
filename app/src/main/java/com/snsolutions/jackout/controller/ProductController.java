@@ -4,6 +4,8 @@ import com.snsolutions.jackout.DAO.ProductDAO;
 import com.snsolutions.jackout.helper.ConnectionSQL;
 import com.snsolutions.jackout.model.Product;
 
+import java.util.ArrayList;
+
 public class ProductController {
     private final ProductDAO productDAO;
 
@@ -15,4 +17,9 @@ public class ProductController {
     public int salvarProdutoController(Product produto) {
         return this.productDAO.salvarProduto(produto);
     }
+
+    public ArrayList<Product> getListaProdutosController (){
+        return  this.productDAO.getListaProdutosDAO();
+    };
 }
+

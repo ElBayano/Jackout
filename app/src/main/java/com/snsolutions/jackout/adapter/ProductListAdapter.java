@@ -1,6 +1,7 @@
 package com.snsolutions.jackout.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -26,6 +27,10 @@ public class ProductListAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void atualizarLista() {
+        Log.i("debugar", "atualizarLista executado : ProoductListAdapter ");
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getCount() {

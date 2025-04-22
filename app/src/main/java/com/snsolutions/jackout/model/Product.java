@@ -21,6 +21,13 @@ public class Product implements Serializable {
 
     }
 
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
 
     public String getDescription() {
         return description;
@@ -30,28 +37,16 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public double getCost() {
-        return cost;
-    }
-
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-
-    public double getProfitRetail() {
-        return profitRetail;
-    }
-
-    public void setProfitRetail(Integer profitRetail) {
-        this.profitRetail = profitRetail;
-    }
-
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public double getProfitRetail() {
+        return profitRetail;
     }
 
     public void setProfitRetail(double profitRetail) {
