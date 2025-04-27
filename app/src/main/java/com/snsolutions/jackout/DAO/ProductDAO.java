@@ -24,7 +24,6 @@ public class ProductDAO {
         try {
             ContentValues values = new ContentValues();
             values.put("id", produto.getId());
-            values.put("custo", produto.getCost());
             values.put("nome", produto.getDescription());
             values.put("margem_desejada_varejo", produto.getProfitRetail());
             values.put("margem_desejada_atacado", produto.getProfitWholesale());
@@ -49,7 +48,12 @@ public class ProductDAO {
         ArrayList<Product> productArrayList = new ArrayList<>();
         Cursor cursor;
 
-        String query = "SELECT * FROM produto;";
+        String query =
+                "SELECT Produto.id, Produto.nome, Produto.margem_desejada_varejo, Produto.margem_desejada_atacado, " +
+                        "Estoque.quantidade_atual, Estoque.estoque_min, Estoque.estoque_max, " +
+                        "Estoque.preco_varejo, Estoque.preco_atacado, Estoque.custo_total " +
+                        "FROM Produto " +
+                        "LEFT JOIN Estoque ON Produto.id = Estoque.produto_id";
 
         try {
             db = connectionSQL.getReadableDatabase();
@@ -61,10 +65,10 @@ public class ProductDAO {
                 do {
                     produto = new Product();
                     produto.setId(cursor.getInt(0));
-                    produto.setCost(cursor.getDouble(1));
-                    produto.setDescription(cursor.getString(2));
-                    produto.setProfitRetail(cursor.getDouble(3));
-                    produto.setProfitWholesale(cursor.getDouble(4));
+                    produto.setDescription(cursor.getString(1));
+                    produto.setProfitRetail(cursor.getDouble(2));
+                    produto.setProfitWholesale(cursor.getDouble(3));
+                    produto.setCost(cursor.getDouble(9));
 
 
                     productArrayList.add(produto);
@@ -82,7 +86,7 @@ public class ProductDAO {
 
 
         } catch (Exception e) {
-            Log.d("debugar ERRO LISTA PRODUTOS", "Erro ao retornar produtos");
+            Log.d("debugar ERRO LISTA PRODUTOS", "Erro ao retornar produtos: " + e.getMessage());
             return null;
 
         } finally {

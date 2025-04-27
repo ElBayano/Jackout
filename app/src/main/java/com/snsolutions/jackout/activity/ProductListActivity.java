@@ -43,6 +43,7 @@ public class ProductListActivity extends AppCompatActivity {
 
 
 
+
         Button produto_btn_cadastrar_novo = findViewById(R.id.produto_btn_cadastrar_novo);
         produto_btn_cadastrar_novo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,16 +53,28 @@ public class ProductListActivity extends AppCompatActivity {
             }
         });
 
+        Button produto_btn_cadastrar_entrada = findViewById(R.id.produto_btn_cadastrar_entrada);
+        produto_btn_cadastrar_entrada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProductListActivity.this, NewEntry.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
 
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.i("debugar", "onResume executado : ProductListActivity");
-        ProductController productController = new ProductController(ConnectionSQL.getInstance( ProductListActivity.this));
-        this.productArrayList = productController.getListaProdutosController();
-        this.productListAdapter.atualizarLista();
+        Log.i("debugar", "onStart executado : ProductListActivity");
 
+        ProductController productController = new ProductController(ConnectionSQL.getInstance(ProductListActivity.this));
+        this.productArrayList = productController.getListaProdutosController();
+        this.productListAdapter.atualizarLista(this.productArrayList);
     }
 }

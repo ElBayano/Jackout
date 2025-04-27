@@ -20,23 +20,23 @@
         android:orientation="horizontal">
         <Button
             android:id="@+id/produto_btn_cadastrar_novo"
-            android:layout_width="136dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:text="Cadastrar novo">
+            android:text="Novo Produto">
         </Button>
         <Button
             android:id="@+id/produto_btn_cadastrar_entrada"
-            android:layout_width="136dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:text="Cadastrar novo">
+            android:text="Entrada">
         </Button>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
