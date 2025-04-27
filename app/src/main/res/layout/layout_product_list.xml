@@ -37,9 +37,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
-            android:text="Estoque:" />
+            android:text="Custo:" />
         <TextView
-            android:id="@+id/text_view_estoque"
+            android:id="@+id/text_view_custo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

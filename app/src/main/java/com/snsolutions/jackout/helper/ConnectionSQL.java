@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 
 public class ConnectionSQL extends SQLiteOpenHelper {
     private static ConnectionSQL CONNECTION_INSTANCE;
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
     private static final String DB_NAME = "db_jackaut";
 
     public ConnectionSQL(@Nullable Context context) {
@@ -19,117 +19,158 @@ public class ConnectionSQL extends SQLiteOpenHelper {
     }
 
 
+    // Cria um metodo que retorna um instancia do banco de dados (Padrão Singleton )
     public static ConnectionSQL getInstance(Context context) {
-        if(CONNECTION_INSTANCE == null) {
+        if (CONNECTION_INSTANCE == null) {
             CONNECTION_INSTANCE = new ConnectionSQL(context);
-        };
+        }
+        ;
         return CONNECTION_INSTANCE;
-    };
+    }
 
+    ;
 
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String queryCreateTableCliente = "CREATE TABLE IF NOT EXISTS cliente (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "nome TEXT," +
-                "endereco TEXT" +
-                ");";
+        String queryCreateTableCliente =
+                "CREATE TABLE IF NOT EXISTS Cliente (" +
+                        "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, " +
+                        "nome TEXT NOT NULL, " +
+                        "endereco TEXT NOT NULL);";
 
-        String queryCreateTableVendedor = "CREATE TABLE IF NOT EXISTS vendedor (" +
-                        "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        "nome TEXT," +
-                        "endereco TEXT);";
+        String queryCreateTableFormaPagamento =
+                "CREATE TABLE IF NOT EXISTS Forma_pagamento (" +
+                        "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, " +
+                        "descricao TEXT NOT NULL, " +
+                        "taxa REAL NOT NULL);";
 
-        String queryCreateTableFormaPagamento = "CREATE TABLE IF NOT EXISTS forma_pagamento (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "nome TEXT UNIQUE NOT NULL," +
-                "taxa DOUBLE);";
+        String queryCreateTableVendedor =
+                "CREATE TABLE IF NOT EXISTS Vendedor (" +
+                        "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, " +
+                        "nome TEXT NOT NULL, " +
+                        "endereco TEXT NOT NULL);";
 
-        String queryCreateTableProdutos = "CREATE TABLE IF NOT EXISTS produto (" +
-                "id INTEGER PRIMARY KEY," +
-                "custo DOUBLE CHECK (custo > 0)," +
-                "nome TEXT," +
-                "margem_desejada_varejo DOUBLE," +
-                "margem_desejada_atacado DOUBLE);";
+        String queryCreateTableProdutos =
+                "CREATE TABLE IF NOT EXISTS Produto (" +
+                        "id INTEGER PRIMARY KEY NOT NULL UNIQUE, " +
+                        "nome TEXT NOT NULL, " +
+                        "margem_desejada_varejo REAL NOT NULL, " +
+                        "margem_desejada_atacado REAL NOT NULL);";
 
-        String queryCreateTableEntrada = "CREATE TABLE IF NOT EXISTS entrada (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "nota_fiscal INTEGER," +
-                "data_hora TIMESTAMP," +
-                "produto INTEGER," +
-                "fornecedor TEXT," +
-                "FOREIGN KEY (produto) REFERENCES produto(id));";
+        String queryCreateTableStatusOperacao =
+                "CREATE TABLE IF NOT EXISTS Status_Operacao (" +
+                        "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, " +
+                        "descricao TEXT NOT NULL);";
 
-        String queryCreateTableVenda = "CREATE TABLE IF NOT EXISTS venda (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "data_hora TIMESTAMP," +
-                "valor_total DOUBLE CHECK (valor_total > 0)," +
-                "cliente INTEGER," +
-                "vendedor INTEGER," +
-                "forma_pagamento INTEGER," +
-                "FOREIGN KEY (cliente) REFERENCES cliente(id)," +
-                "FOREIGN KEY (vendedor) REFERENCES vendedor(id)," +
-                "FOREIGN KEY (forma_pagamento) REFERENCES forma_pagamento(id));";
+        String queryCreateTableVenda =
+                "CREATE TABLE IF NOT EXISTS Venda (" +
+                        "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, " +
+                        "data_hora TIMESTAMP NOT NULL, " +
+                        "valor_total REAL NOT NULL, " +
+                        "cliente_id INTEGER NOT NULL, " +
+                        "vendedor INTEGER NOT NULL, " +
+                        "forma_pagamento INTEGER NOT NULL, " +
+                        "status_operacao_id INTEGER NOT NULL, " +
+                        "FOREIGN KEY (cliente_id) REFERENCES Cliente(id), " +
+                        "FOREIGN KEY (vendedor) REFERENCES Vendedor(id), " +
+                        "FOREIGN KEY (forma_pagamento) REFERENCES Forma_pagamento(id), " +
+                        "FOREIGN KEY (status_operacao_id) REFERENCES Status_Operacao(id));";
 
-        String queryCreateTableVendaProduto = "CREATE TABLE IF NOT EXISTS venda_produto (" +
-                "id_venda INTEGER," +
-                "id_produto INTEGER," +
-                "quantidade INTEGER CHECK (quantidade > 0)," +
-                "PRIMARY KEY (id_venda, id_produto)," +
-                "FOREIGN KEY (id_venda) REFERENCES venda(id)," +
-                "FOREIGN KEY (id_produto) REFERENCES produto(id));";
+        String queryCreateTableVendaProduto =
+                "CREATE TABLE IF NOT EXISTS Venda_Produto (" +
+                        "venda_id INTEGER NOT NULL, " +
+                        "produto_id INTEGER NOT NULL, " +
+                        "quantidade REAL CHECK (quantidade > 0) NOT NULL, " +
+                        "valor_total REAL NOT NULL, " +
+                        "PRIMARY KEY (produto_id, venda_id), " +
+                        "FOREIGN KEY (produto_id) REFERENCES Produto(id), " +
+                        "FOREIGN KEY (venda_id) REFERENCES Venda(id));";
 
-        String queryCreateTableEstoque = "CREATE TABLE IF NOT EXISTS estoque (" +
-                "id_produto INTEGER PRIMARY KEY," +
-                "quantidade_atual INTEGER CHECK (quantidade_atual >= 0)," +
-                "estoque_min INTEGER," +
-                "FOREIGN KEY (id_produto) REFERENCES produto(id));";
+        String queryCreateTableEntrada =
+                "CREATE TABLE IF NOT EXISTS Entrada (" +
+                        "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, " +
+                        "nota_fisacal INTEGER NOT NULL, " +
+                        "data_hora TIMESTAMP NOT NULL, " +
+                        "produto INTEGER NOT NULL, " +
+                        "quantidade REAL NOT NULL, " +
+                        "fornecedor TEXT NOT NULL, " +
+                        "custo_unitario REAL NOT NULL, " +
+                        "custo_total REAL NOT NULL, " +
+                        "status_operacao_id INTEGER NOT NULL, " +
+                        "FOREIGN KEY (produto) REFERENCES Produto(id), " +
+                        "FOREIGN KEY (status_operacao_id) REFERENCES Status_Operacao(id));";
+
+        String queryCreateTableEstoque =
+                "CREATE TABLE IF NOT EXISTS Estoque (" +
+                        "produto_id INTEGER PRIMARY KEY NOT NULL, " +
+                        "quantidade_atual INTEGER CHECK (quantidade_atual >= 0) NOT NULL, " +
+                        "estoque_min REAL NOT NULL DEFAULT 0, " +
+                        "estoque_max REAL NOT NULL DEFAULT 0, " +
+                        "preco_varejo REAL NOT NULL DEFAULT 0, " +
+                        "preco_atacado REAL NOT NULL DEFAULT 0, " +
+                        "custo_total REAL NOT NULL DEFAULT 0," +
+                        "FOREIGN KEY (produto_id) REFERENCES Produto(id));";
 
         String queryCreateTrgEntradaInserida =
-                "CREATE TRIGGER IF NOT EXISTS trg_entrada_insere_estoque\n" +
-                        "AFTER INSERT ON entrada\n" +
-                        "WHEN NOT EXISTS (SELECT 1 FROM estoque WHERE id_produto = NEW.produto)\n" +
-                        "BEGIN\n" +
-                        "    INSERT INTO estoque (id_produto, quantidade_atual, estoque_min)\n" +
-                        "    VALUES (NEW.produto, 1, 0);\n" +
+                "CREATE TRIGGER IF NOT EXISTS trg_entrada_insere_estoque " +
+                        "AFTER INSERT ON Entrada " +
+                        "WHEN NOT EXISTS (SELECT 1 FROM Estoque WHERE produto_id = NEW.produto) " +
+                        "BEGIN " +
+                        "    INSERT INTO Estoque (produto_id, quantidade_atual, estoque_min, estoque_max, preco_varejo, preco_atacado) " +
+                        "    VALUES (NEW.produto, 1, 0, 0, 0, 0); " +
                         "END;";
 
         String queryCreateTrgEntradaInseridaAtualizar =
-                "CREATE TRIGGER IF NOT EXISTS trg_entrada_atualiza_estoque\n" +
-                        "AFTER INSERT ON entrada\n" +
-                        "WHEN EXISTS (SELECT 1 FROM estoque WHERE id_produto = NEW.produto)\n" +
-                        "BEGIN\n" +
-                        "    UPDATE estoque\n" +
-                        "    SET quantidade_atual = quantidade_atual + 1\n" +
-                        "    WHERE id_produto = NEW.produto;\n" +
+                "CREATE TRIGGER IF NOT EXISTS trg_entrada_atualiza_estoque " +
+                        "AFTER INSERT ON Entrada " +
+                        "WHEN EXISTS (SELECT 1 FROM Estoque WHERE produto_id = NEW.produto) " +
+                        "BEGIN " +
+                        "    UPDATE Estoque " +
+                        "    SET quantidade_atual = quantidade_atual + NEW.quantidade " +
+                        "    WHERE produto_id = NEW.produto; " +
                         "END;";
 
-
-        String queryCreateTrgProdutoVendaInserida = "CREATE TRIGGER IF NOT EXISTS trg_venda_produto_inserida " +
-                        "AFTER INSERT ON venda_produto " +
+        String queryCreateTrgProdutoVendaInserida =
+                "CREATE TRIGGER IF NOT EXISTS trg_venda_produto_inserida " +
+                        "AFTER INSERT ON Venda_Produto " +
                         "BEGIN " +
-                        "    UPDATE estoque " +
+                        "    UPDATE Estoque " +
                         "    SET quantidade_atual = quantidade_atual - NEW.quantidade " +
-                        "    WHERE id_produto = NEW.id_produto; " +
+                        "    WHERE produto_id = NEW.produto_id; " +
                         "END;";
 
         db.execSQL(queryCreateTableCliente);
-        db.execSQL(queryCreateTableVendedor);
         db.execSQL(queryCreateTableFormaPagamento);
+        db.execSQL(queryCreateTableVendedor);
         db.execSQL(queryCreateTableProdutos);
-        db.execSQL(queryCreateTableEntrada);
+        db.execSQL(queryCreateTableStatusOperacao);
         db.execSQL(queryCreateTableVenda);
         db.execSQL(queryCreateTableVendaProduto);
+        db.execSQL(queryCreateTableEntrada);
         db.execSQL(queryCreateTableEstoque);
+
         db.execSQL(queryCreateTrgEntradaInserida);
         db.execSQL(queryCreateTrgEntradaInseridaAtualizar);
         db.execSQL(queryCreateTrgProdutoVendaInserida);
-    Log.i("SQLe", "Query executada");
+
+        Log.i("SQLe", "Query executada");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            db.execSQL("DROP TABLE IF EXISTS Cliente");
+            db.execSQL("DROP TABLE IF EXISTS Forma_pagamento");
+            db.execSQL("DROP TABLE IF EXISTS Vendedor");
+            db.execSQL("DROP TABLE IF EXISTS Produto");
+            db.execSQL("DROP TABLE IF EXISTS Status_Operacao");
+            db.execSQL("DROP TABLE IF EXISTS Venda");
+            db.execSQL("DROP TABLE IF EXISTS Venda_Produto");
+            db.execSQL("DROP TABLE IF EXISTS Entrada");
+            db.execSQL("DROP TABLE IF EXISTS Estoque");
+
+            onCreate(db);
+
         Log.i("Teste", "onUPGRADE executada");
 
     }
